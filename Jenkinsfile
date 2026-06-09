@@ -8,7 +8,7 @@ pipeline {
         MYSQL_CONT = "todo-mysql"
         API_CONT = "todo-api"
  
-        MYSQL_PWD = "root"
+        MYSQL_PWD = "appsecret"
         MYSQL_DB = "tododb"
     }
  
@@ -74,7 +74,7 @@ pipeline {
                 docker run -d --name %API_CONT% --network %NETWORK% ^
                     -e ASPNETCORE_ENVIRONMENT=Development ^
                     -e ASPNETCORE_URLS=http://+:5024 ^
-                    -e ConnectionStrings__DefaultConnection="Server=%MYSQL_CONT%;Database=%MYSQL_DB%;User=root;Password=%MYSQL_PWD%;" ^
+                    -e ConnectionStrings__DefaultConnection="Server=%MYSQL_CONT%;Database=%MYSQL_DB%;User=appuser;Password=%MYSQL_PWD%;" ^
                     -e JwtSettings__Issuer=ToDoApi ^
                     -e JwtSettings__Audience=ToDoApiClient ^
                     -e JwtSettings__SecretKey=SuperSecretKeyForToDoApiThatShouldBeLongEnoughToWork!1234567890 ^
