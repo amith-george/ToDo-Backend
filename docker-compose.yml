@@ -1,0 +1,43 @@
+services:
+  todo-mysql:
+    image: mysql:8.0
+    container_name: todo-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: appsecret
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: appsecret
+      MYSQL_DATABASE: tododb
+    ports:
+      - "3307:3306"
+    volumes:
+      - todo-mysql-data:/var/lib/mysql
+    networks:
+      - todo-net
+
+  todo-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: todo-api
+    restart: unless-stopped
+    depends_on:
+      - todo-mysql
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5024
+      - ConnectionStrings__DefaultConnection=Server=todo-mysql;Database=tododb;User=appuser;Password=appsecret;
+      - JwtSettings__Issuer=ToDoApi
+      - JwtSettings__Audience=ToDoApiClient
+      - JwtSettings__SecretKey=SuperSecretKeyForToDoApiThatShouldBeLongEnoughToWork!1234567890
+    ports:
+      - "5024:5024"
+    networks:
+      - todo-net
+
+volumes:
+  todo-mysql-data:
+
+networks:
+  todo-net:
+    external: true
