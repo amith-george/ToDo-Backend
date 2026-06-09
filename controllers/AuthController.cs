@@ -32,7 +32,7 @@ namespace ToDoApi.Controllers
             {
                 Name = request.Name,
                 Email = request.Email,
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password)
+                Password = BCrypt.Net.BCrypt.HashPassword(request.Password)
             };
 
             _context.Users.Add(user);
@@ -46,7 +46,7 @@ namespace ToDoApi.Controllers
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
 
-            if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
+            if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.Password))
             {
                 return Unauthorized("Invalid email or password.");
             }
