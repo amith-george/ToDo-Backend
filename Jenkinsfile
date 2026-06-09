@@ -40,8 +40,10 @@ pipeline {
  
                 docker run -d --name %MYSQL_CONT% --network %NETWORK% ^
                     -e MYSQL_ROOT_PASSWORD=%MYSQL_PWD% ^
+                    -e MYSQL_USER=appuser ^
+                    -e MYSQL_PASSWORD=%MYSQL_PWD% ^
                     -e MYSQL_DATABASE=%MYSQL_DB% ^
-                    -p 3306:3306 ^
+                    -p 3307:3306 ^
                     -v todo-mysql-data:/var/lib/mysql ^
                     mysql:8.0
                 """
