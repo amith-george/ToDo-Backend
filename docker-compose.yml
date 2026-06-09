@@ -37,6 +37,7 @@ services:
 
 volumes:
   todo-mysql-data:
+    external: true
 
 networks:
   todo-net:
