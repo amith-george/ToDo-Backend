@@ -5,6 +5,9 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using ToDoApi.Data;
 using ToDoApi.Services;
+using DotNetEnv;
+
+Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
